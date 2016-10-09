@@ -4,17 +4,32 @@
 $(document).ready(function() {
 	var sub = $('#sub')
 	var activeRow
+	var activeMenu
+	var timer = null
+	var mouseX = mouseY = 0
+	var mouseTrack = []
 
-	function toggleRelMenu(row) {
-		var subId = row.data('id')
-		var subMenu = $('#' + subId)
+	var moveHandler = function(e) {
+		mouseX = e.pageX
+		mouseY = e.pageY
 
-		subMenu.toggleClass('none')
+		mouseTrack.push({
+			x: mouseX,
+			y: mouseY
+		})
+
+		if (mouseTrack.length > 3) {
+			mouseTrack.shift()
+		}
 	}
 
-	$('#test').on('mouseenter', function(e) {
+	$('#test')
+	.on('mouseenter', function(e) {
 		sub.removeClass('none')
-	}).on('mouseleave', function(e) {
+
+		$(document).bind('mousemove', moveHandler)
+	})
+	.on('mouseleave', function(e) {
 		sub.addClass('none')
 
 		if (activeRow) {
@@ -22,18 +37,63 @@ $(document).ready(function() {
 			activeRow = null
 		}
 
-	}).on('mouseover', 'li', function(e) {
+		if (activeMenu) {
+			activeMenu.addClass('none')
+			activeMenu = null
+		}
+
+		$(document).unbind('mousemove', moveHandler)
+	})
+	.on('mouseover', 'li', function(e) {
 		if (!activeRow) {
 			activeRow = $(e.target).addClass('active')
+			activeMenu = $('#' + activeRow.data('id'))
+			activeMenu.removeClass('none')
 			return
 		}
 
-		activeRow.removeClass('active')
-		toggleRelMenu(activeRow)
+		if (timer) {
+			clearTimeout(timer)
+		}
 
-		activeRow = $(e.target)
-		activeRow.addClass('active')
+		var leftCorner = mouseTrack[mouseTrack.length - 2]
+		var currMousePos = mouseTrack[mouseTrack.length - 1]
 
-		toggleRelMenu(activeRow)
+		if (!leftCorner) {
+			leftCorner = currMousePos
+		}
+
+		var delay = needDelay(sub, leftCorner, currMousePos, 10)
+
+		if (delay) {
+			console.log('delay fire')
+			timer = setTimeout(function() {
+				var currentMouseOverTarget = document.elementFromPoint(mouseX, mouseY)
+
+				console.log(currentMouseOverTarget, activeMenu[0])
+
+				if (currentMouseOverTarget == activeMenu[0] || currentMouseOverTarget.contains(activeMenu[0])) {
+					return
+				}
+
+				activeRow.removeClass('active')
+				activeMenu.addClass('none')
+
+				activeRow = $(e.target)
+				activeRow.addClass('active')
+				activeMenu = $('#' + activeRow.data('id'))
+				activeMenu.removeClass('none')
+
+				timer = null
+			}, 300)
+		} else {
+			activeRow.removeClass('active')
+			activeMenu.addClass('none')
+
+			activeRow = $(e.target)
+			activeRow.addClass('active')
+			activeMenu = $('#' + activeRow.data('id'))
+			activeMenu.removeClass('none')
+		}
 	})
 })

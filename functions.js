@@ -25,7 +25,7 @@ function isPointInTrangle(p, a, b, c) {
 		y: c.y - p.y
 	}
 
-	var t1 = vectorProduct(pa.x, pa,y, pb.x, pb.y)
+	var t1 = vectorProduct(pa.x, pa.y, pb.x, pb.y)
 	var t2 = vectorProduct(pb.x, pb.y, pc.x, pc.y)
 	var t3 = vectorProduct(pc.x, pc.y, pa.x, pa.y)
 
@@ -33,21 +33,21 @@ function isPointInTrangle(p, a, b, c) {
 }
 
 // 判断是否需要延迟
-function needDelay(menuDom, mousePosTrack, currMousePos) {
+function needDelay(menuDom, leftCorner, currMousePos, plus) {
 	var offset = menuDom.offset()
-	
+	var plus = plus === undefined ? 0 : plus
+
 	var topLeft = {
 		x: offset.left,
-		y: offset.top
+		y: offset.top - plus
 	}
 
 	var bottomLeft = {
 		x: offset.left,
-		y: offset.top + menuDom.height()
+		y: offset.top + menuDom.height() + plus
 	}
 
-	var leftCorner = mousePosTrack[mousePosTrack.length - 1]
-	var delay = isPointInTrangle(currMousePos, leftCorner, topLeft, bottomLeft)
+	//console.log(leftCorner, topLeft, bottomLeft)
 
-	return delay
+	return isPointInTrangle(currMousePos, leftCorner, topLeft, bottomLeft)
 }
