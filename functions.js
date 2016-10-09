@@ -35,6 +35,7 @@ function isPointInTrangle(p, a, b, c) {
 // 判断是否需要延迟
 function needDelay(menuDom, mousePosTrack, currMousePos) {
 	var offset = menuDom.offset()
+	
 	var topLeft = {
 		x: offset.left,
 		y: offset.top
