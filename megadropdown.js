@@ -29,6 +29,7 @@ $(document).ready(function() {
 
 		$(document).bind('mousemove', moveHandler)
 	})
+
 	.on('mouseleave', function(e) {
 		sub.addClass('none')
 
@@ -44,7 +45,8 @@ $(document).ready(function() {
 
 		$(document).unbind('mousemove', moveHandler)
 	})
-	.on('mouseover', 'li', function(e) {
+
+	.delegate('li', 'mouseover', function(e) {
 		if (!activeRow) {
 			activeRow = $(e.target).addClass('active')
 			activeMenu = $('#' + activeRow.data('id'))
@@ -63,7 +65,7 @@ $(document).ready(function() {
 			leftCorner = currMousePos
 		}
 
-		var delay = needDelay(sub, leftCorner, currMousePos, 10)
+		var delay = (currMousePos.x > leftCorner.x) && needDelay(sub, leftCorner, currMousePos, 10)
 
 		if (delay) {
 			console.log('delay fire')
