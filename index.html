@@ -47,6 +47,14 @@
       align-items: center;
       font-size: 30px;
       font-weight: bolder;
+      height: 100%;
+      flex-direction: column;
+    }
+    
+    .sub_content a {
+      display: block;
+      text-decoration: none;
+      flex: 1;
     }
 
     .none {
@@ -74,7 +82,12 @@
       </li>
     </ul>
     <div id="sub" class="none">
-      <div id="a" class="sub_content none">content A</div>
+      <div id="a" class="sub_content none">
+        <a href="#">LINK A</a>
+        <a href="#">LINK B</a>
+        <a href="#">LINK C</a>
+        <a href="#">LINK D</a>
+      </div>
       <div id="b" class="sub_content none">content B</div>
       <div id="c" class="sub_content none">content C</div>
       <div id="d" class="sub_content none">content D</div>

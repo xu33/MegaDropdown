@@ -47,7 +47,7 @@ function needDelay(menuDom, leftCorner, currMousePos, plus) {
 		y: offset.top + menuDom.height() + plus
 	}
 
-	//console.log(leftCorner, topLeft, bottomLeft)
+	// console.log(leftCorner, topLeft, bottomLeft)
 
 	return isPointInTrangle(currMousePos, leftCorner, topLeft, bottomLeft)
 }

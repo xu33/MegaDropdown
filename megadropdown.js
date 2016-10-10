@@ -1,7 +1,8 @@
 /**
  * Created by Administrator on 2016/10/9.
  */
-$(document).ready(function() {
+$(document)
+.ready(function() {
 	var sub = $('#sub')
 	var activeRow
 	var activeMenu
@@ -46,7 +47,7 @@ $(document).ready(function() {
 		$(document).unbind('mousemove', moveHandler)
 	})
 
-	.delegate('li', 'mouseover', function(e) {
+	.delegate('li', 'mouseenter', function(e) {
 		if (!activeRow) {
 			activeRow = $(e.target).addClass('active')
 			activeMenu = $('#' + activeRow.data('id'))
@@ -72,9 +73,9 @@ $(document).ready(function() {
 			timer = setTimeout(function() {
 				var currentMouseOverTarget = document.elementFromPoint(mouseX, mouseY)
 
-				console.log(currentMouseOverTarget, activeMenu[0])
+				// console.log(currentMouseOverTarget, activeMenu[0])
 
-				if (currentMouseOverTarget == activeMenu[0] || currentMouseOverTarget.contains(activeMenu[0])) {
+				if (currentMouseOverTarget == activeMenu[0] || activeMenu[0].contains(currentMouseOverTarget)) {
 					return
 				}
 
