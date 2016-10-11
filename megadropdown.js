@@ -90,12 +90,16 @@ $(document)
 				timer = null
 			}, 300)
 		} else {
-			activeRow.removeClass('active')
-			activeMenu.addClass('none')
-
+			var prevActiveRow = activeRow
+			var prevActiveMenu = activeMenu
+			
 			activeRow = $(e.target)
-			activeRow.addClass('active')
 			activeMenu = $('#' + activeRow.data('id'))
+
+			prevActiveRow.removeClass('active')
+			prevActiveMenu.addClass('none')
+
+			activeRow.addClass('active')
 			activeMenu.removeClass('none')
 		}
 	})
